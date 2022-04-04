@@ -13,16 +13,23 @@ import java.util.Set;
 
 public class Password implements Task {
     private userInterface.uTestRegisterPasswordPage uTestRegisterPasswordPage;
-    public static Password onThePage() {
-        return Tasks.instrumented(Password.class);
+    private String strPassword,strConfirmPassword;
+
+    public Password(String strPassword, String strConfirmPassword) {
+        this.strPassword = strPassword;
+        this.strConfirmPassword = strConfirmPassword;
+    }
+
+    public static Password onThePage(String strPassword, String strConfirmPassword) {
+        return Tasks.instrumented(Password.class,strPassword,strConfirmPassword);
     }
 
 
     @Override
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
-                Enter.theValue("Password#1").into(uTestRegisterPasswordPage.INPUT_PASSWORD),
-                Enter.theValue("Password#1").into(uTestRegisterPasswordPage.INPUT_CONFIRM_PASSWORD),
+                Enter.theValue(strPassword).into(uTestRegisterPasswordPage.INPUT_PASSWORD),
+                Enter.theValue(strConfirmPassword).into(uTestRegisterPasswordPage.INPUT_CONFIRM_PASSWORD),
                 //Click.on(uTestRegisterPasswordPage.CHECH_BOX1),
                 //Click.on(uTestRegisterPasswordPage.CHECH_BOX2),
                 Click.on(uTestRegisterPasswordPage.LAST_BUTTON)
